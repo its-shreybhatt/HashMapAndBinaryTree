@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class MyHashMap<K, V> {
     private final int numBuckets;
+    private INode head;
     ArrayList<MyLinkedList<K>> myBucketArray;
     public MyHashMap() {
         this.numBuckets = 10;
@@ -42,6 +43,20 @@ public class MyHashMap<K, V> {
         } else {
             myMapNode.setValue(value);
         }
+    }
+    public INode remove(K key) {
+        int index = this.getBucketIndex(key);
+        MyLinkedList<K> myLinkedList =this.myBucketArray.get(index);
+        if (myLinkedList == null) return null;
+        MyMapNode<K, V> myMapNode = (MyMapNode<K, V>) myLinkedList.searchNode(key);
+        INode tempNode = head;
+        while (!tempNode.getNext().equals(myMapNode)) {
+            tempNode = tempNode.getNext();
+            break;
+        }
+        INode removedNode = tempNode.getNext();
+        tempNode.setNext(null);
+        return removedNode;
     }
 
     public String toString() {

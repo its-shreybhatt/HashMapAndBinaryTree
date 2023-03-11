@@ -8,7 +8,7 @@ public class HashMapTest {
         String[] words = sentence.toLowerCase().split(" ");
         for (String word : words) {
             Integer value = myHashMap.get(word);
-
+            myHashMap.remove("avoidable");
             if (value == null) {
                 value = 1;
             } else {
