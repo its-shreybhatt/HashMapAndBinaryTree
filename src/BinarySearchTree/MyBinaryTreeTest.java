@@ -19,5 +19,6 @@ public class MyBinaryTreeTest {
         myBinaryTree.add(63);
         myBinaryTree.add(67);
         System.out.println("Now Total nodes = " + myBinaryTree.getsize());
+        myBinaryTree.search(63);
     }
 }
