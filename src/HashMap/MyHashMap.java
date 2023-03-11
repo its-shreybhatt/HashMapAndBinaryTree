@@ -1,29 +1,50 @@
 package HashMap;
 
-public class MyHashMap<K, V> {
-    MyLinkedList<K> myLinkedList;
+import java.util.ArrayList;
 
+public class MyHashMap<K, V> {
+    private final int numBuckets;
+    ArrayList<MyLinkedList<K>> myBucketArray;
     public MyHashMap() {
-        this.myLinkedList = new MyLinkedList<>();
+        this.numBuckets = 10;
+        this.myBucketArray = new ArrayList<>(numBuckets);
+        // Create empty LinkedList all index of array =null
+        for (int i = 0; i < numBuckets; i++) {
+            this.myBucketArray.add(null);
+        }
+    }
+
+    private int getBucketIndex(K key) {
+        int hashCode = Math.abs(key.hashCode());
+        int index = hashCode % numBuckets;
+        return index;
     }
 
     public V get(K key) {
-        MyMapNode<K, V> myMapNode = (MyMapNode<K, V>) this.myLinkedList.searchNode(key);
+        int index = this.getBucketIndex(key);
+        MyLinkedList<K> myLinkedList =this.myBucketArray.get(index);
+        if (myLinkedList == null) return null;
+        MyMapNode<K, V> myMapNode = (MyMapNode<K, V>) myLinkedList.searchNode(key);
         return (myMapNode == null) ? null : myMapNode.getValue();
     }
 
     public void add(K key, V value) {
-        MyMapNode<K, V> myMapNode = (MyMapNode<K, V>) this.myLinkedList.searchNode(key);
+        int index = this.getBucketIndex(key);
+        MyLinkedList<K> myLinkedList =this.myBucketArray.get(index);
+        if (myLinkedList == null){
+            myLinkedList = new MyLinkedList<>();
+            this.myBucketArray.set(index,myLinkedList);
+        }
+        MyMapNode<K, V> myMapNode = (MyMapNode<K, V>) myLinkedList.searchNode(key);
         if (myMapNode == null) {
             myMapNode = new MyMapNode<>(key, value);
-            this.myLinkedList.appendToLast(myMapNode);
+            myLinkedList.appendToLast(myMapNode);
         } else {
             myMapNode.setValue(value);
         }
     }
 
     public String toString() {
-        return "MyHashMapNodes= { " + myLinkedList + " ";
+        return "MyLinkedHashMap = { " + myBucketArray + " ";
     }
-
 }

@@ -68,7 +68,7 @@ public class MyLinkedList<K> {
 
     public INode searchNode(K key) {
         INode tempNode = head;
-        while (tempNode != null ) {
+        while (tempNode != null && tempNode.getNext()!=null ) {
             if (tempNode.getKey().equals(key)) {
                 break;
             }
@@ -118,5 +118,4 @@ public class MyLinkedList<K> {
         return "" + head +
                 " }";
     }
-
 }
